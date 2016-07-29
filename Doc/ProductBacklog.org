@@ -7,26 +7,7 @@
 
 This document contains the [[http://www.mountaingoatsoftware.com/agile/scrum/product-backlog][product backlog]] for Qart.
 
-** To be prioritised
-
-*** Implement Qart.Wheels Automation using Pipeline processor         :story:
-
-Now that we have a pipeline processor we need to make use of it to
-test Qart.Wheels.
-
-*** Add support for Test Case description                             :story:
-
-Tests at present do not have a human-readable description associated
-with them. We should create a new file type =.description= that when
-present gets read and populates a property in the test case
-=Description=. The description file should be a JSON object with
-KVPs. Some of these will be well-known keys (such as perhaps
-"description" or maybe "summary") others can be user defined and used
-only in the user specific processors.
-
-*** Remove test app                                                   :story:
-
-Once Qart.Wheels is done we don't need it.
+** To be worked on soon
 
 *** Actions should support parameters                                 :story:
 
@@ -52,20 +33,12 @@ JSON style notation:
 : ...
 We need to support both of these forms.
 
-*** Add endpoints to Qart.Wheels                                      :story:
-
-Useful endpoints:
-
-- list all test cases with descriptions
-- run test cases: with argument of starting point
-- ability to supply options as argument
-
 *** Add Rebaseline to Test Case Context                               :story:
 
 Propagate the command line flag into the context.
 
 *** Split workflow from testing in Qart.Testing                       :story:
-*** Add help to cybertester describing all available actions          :story:
+*** Add help to CyberTester describing all available actions          :story:
 
 When an action is registered it must register a description which is
 used to produce the help text. Must document inputs and outputs.
@@ -80,7 +53,7 @@ This is not an exhaustive manual, just a quick started guide.
 
 Document =Qart.Wheels.TestAutomation= as an example in manual.
 
-*** Split inputs from outputs in test                                 :story:
+*** Consider splitting inputs from outputs in test                    :story:
 
 FIXME: deferred.
 
@@ -138,6 +111,7 @@ not what their meaning is. For example, say a set of actions such as
 us anything about intent; a description such as "Given a new file,
 when removing it the file is no longer part of the list of files"
 would make the test case description much more readable.
+
 *** .Test definiton file should support arbitrary tags                :story:
 
 Add some JSON arguments for tagging tests.
@@ -146,11 +120,6 @@ Add some JSON arguments for tagging tests.
 
 Link is broken.
 
-*** Add a test case discoverer                                        :story:
-
-We should have a way to allow the user to supply user defined .test
-files and to supply parsers for those files. We also need to add a
-processor factory.
 *** Semi-colon as a separator causes problems for some shells         :story:
 
 Shells such as Powershell and Bash use semi-colon as a separator for
@@ -163,3 +132,12 @@ perhaps support both kinds.
 It would be good to have some machinery to replace given tokens in XML
 and JSON files. Ideally it should also support post-processing such as
 moving dates forward in time, etc.
+
+
+** Longer term
+
+*** Add a test case discoverer                                         :epic:
+
+We should have a way to allow the user to supply user defined .test
+files and to supply parsers for those files. We also need to add a
+processor factory.

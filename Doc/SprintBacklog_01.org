@@ -1,0 +1,86 @@
+#+title: Sprint Backlog 01
+#+options: date:nil toc:nil author:nil num:nil
+#+todo: STARTED | COMPLETED CANCELLED POSTPONED
+#+tags: { story(s) epic(e) }
+
+* Mission Statement
+
+- finish implementing Qart.Wheels
+
+* Stories
+
+** Active
+
+#+begin: clocktable :maxlevel 3 :scope subtree :indent nil :emphasize nil :scope file :narrow 75 :formula %
+#+CAPTION: Clock summary at [2016-07-28 Thu 17:13]
+| <75>                                                                        |        |      |      |       |
+| Headline                                                                    | Time   |      |      |     % |
+|-----------------------------------------------------------------------------+--------+------+------+-------|
+| *Total time*                                                                | *1:01* |      |      | 100.0 |
+|-----------------------------------------------------------------------------+--------+------+------+-------|
+| Stories                                                                     | 1:01   |      |      | 100.0 |
+| Active                                                                      |        | 1:01 |      | 100.0 |
+| STARTED Sprint and product backlog grooming                                 |        |      | 1:01 | 100.0 |
+#+TBLFM: $5='(org-clock-time% @3$2 $2..$4);%.1f
+#+end:
+
+*** STARTED Sprint and product backlog grooming                       :story:
+    CLOCK: [2016-07-28 Thu 16:12]--[2016-07-28 Thu 17:13] =>  1:01
+
+Updates to sprint and product backlog.
+
+*** STARTED Add endpoints to Qart.Wheels                              :story:
+    CLOCK: [2016-07-28 Thu 17:14]--[2016-07-28 Thu 17:46] =>  0:32
+
+Useful endpoints:
+
+- list all test cases with descriptions: =TestCases/list?dir=/a/b=
+- run test cases: with argument of starting point: =TestCases/execute?dir=/a/b&options=a=b;c=d=
+- ability to supply options as argument: these are just regular
+  parameters in URL.
+
+The biggest question we have is how will the hosted environment get
+access to the test definitions. We have several options:
+
+- to start off with we could simply hack it and use a relative path
+  from the Qart.Wheels binary. This is sufficient to get started.
+- next we could consider some form of "test submission": the user
+  could post a request with a zip file containing the test cases. The
+  problem with this is that the processor would not be present. We
+  could perhaps have two zips: processors and test cases. The system
+  would unpack these into well known directories and then run the
+  tests from the supplied entry point. The zipped file could be
+  accessed via some kind of zipped data store.
+- the final stage would be to allow the user to supply a git repo
+  location and have the system git clone the repo and run the tests
+  from there. Users could also supply a commit id. The git repo would
+  be accessed by a git data store.
+
+Simple example of adding endpoints to OWIN available here:
+
+[[http://www.asp.net/web-api/overview/hosting-aspnet-web-api/use-owin-to-self-host-web-api][Use OWIN to Self-Host ASP.NET Web API 2]]
+
+*** Consider renaming =-d= (directory) to location                    :story:
+
+Directory is specific to the file system. If we have tests stored
+elsewhere like say a database then it would not make sense. Location
+is sufficiently generic that we could use for other resource types.
+
+*** Implement Qart.Wheels Automation using Pipeline processor         :story:
+
+Now that we have a pipeline processor we need to make use of it to
+test Qart.Wheels.
+
+*** Add support for Test Case description                             :story:
+
+Tests at present do not have a human-readable description associated
+with them. We should create a new file type =.description= that when
+present gets read and populates a property in the test case
+=Description=. The description file should be a JSON object with
+KVPs. Some of these will be well-known keys (such as perhaps
+"description" or maybe "summary") others can be user defined and used
+only in the user specific processors.
+
+*** Remove test app                                                   :story:
+
+Once Qart.Wheels is done we don't need it.
