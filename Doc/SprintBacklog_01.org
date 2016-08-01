@@ -12,18 +12,19 @@
 ** Active
 
 #+begin: clocktable :maxlevel 3 :scope subtree :indent nil :emphasize nil :scope file :narrow 75 :formula %
-#+CAPTION: Clock summary at [2016-08-01 Mon 10:30]
+#+CAPTION: Clock summary at [2016-08-01 Mon 12:42]
 | <75>                                                                        |        |      |      |       |
 | Headline                                                                    | Time   |      |      |     % |
 |-----------------------------------------------------------------------------+--------+------+------+-------|
-| *Total time*                                                                | *2:54* |      |      | 100.0 |
+| *Total time*                                                                | *5:09* |      |      | 100.0 |
 |-----------------------------------------------------------------------------+--------+------+------+-------|
-| Stories                                                                     | 2:54   |      |      | 100.0 |
-| Active                                                                      |        | 2:54 |      | 100.0 |
-| STARTED Sprint and product backlog grooming                                 |        |      | 1:05 |  37.4 |
-| STARTED Add endpoints to Qart.Wheels                                        |        |      | 1:10 |  40.2 |
-| COMPLETED Sort out mess with git branches                                   |        |      | 0:25 |  14.4 |
-| STARTED Update appveyor                                                     |        |      | 0:14 |   8.0 |
+| Stories                                                                     | 5:09   |      |      | 100.0 |
+| Active                                                                      |        | 5:09 |      | 100.0 |
+| STARTED Sprint and product backlog grooming                                 |        |      | 1:11 |  23.0 |
+| COMPLETED Sort out mess with git branches                                   |        |      | 0:25 |   8.1 |
+| STARTED Add endpoints to Qart.Wheels                                        |        |      | 2:21 |  45.6 |
+| STARTED Add support for test case discovery to Qart                         |        |      | 0:58 |  18.8 |
+| STARTED Update appveyor configuration                                       |        |      | 0:14 |   4.5 |
 #+TBLFM: $5='(org-clock-time% @3$2 $2..$4);%.1f
 #+end:
 
@@ -89,7 +90,8 @@ Simple example of adding endpoints to OWIN available here:
 
 [[http://www.asp.net/web-api/overview/hosting-aspnet-web-api/use-owin-to-self-host-web-api][Use OWIN to Self-Host ASP.NET Web API 2]]
 
-*** Add support for test case discovery to Qart                       :story:
+*** STARTED Add support for test case discovery to Qart               :story:
+    CLOCK: [2016-08-01 Mon 11:44]--[2016-08-01 Mon 12:42] =>  0:58
 
 In order to list test cases we need to split the running from the
 discovery. Tasks:

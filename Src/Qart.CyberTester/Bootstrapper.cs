@@ -6,16 +6,11 @@ using Qart.Core.DataStore;
 using Qart.Testing;
 using Qart.Testing.Framework;
 using Qart.Testing.StreamTransformers;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Qart.CyberTester
 {
-    public class Bootstrapper
+    public static class Bootstrapper
     {
         public static WindsorContainer CreateContainer(IDataStore testsDataStore)
         {

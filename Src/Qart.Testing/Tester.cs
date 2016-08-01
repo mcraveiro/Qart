@@ -11,7 +11,8 @@ namespace Qart.Testing
         private readonly ITestCaseProcessorResolver _processorResolver;
         private readonly ILogManager _logManager;
 
-        public Tester(ITestSystem testSystem, ITestCaseProcessorResolver processorResolver, ITestCaseLoggerFactory testCaseLoggerFactory, ILogManager logManager)
+        public Tester(ITestSystem testSystem, ITestCaseProcessorResolver processorResolver, 
+            ITestCaseLoggerFactory testCaseLoggerFactory, ILogManager logManager)
         {
             _testSystem = testSystem;
             _testCaseLoggerFactory = testCaseLoggerFactory;
@@ -19,13 +20,16 @@ namespace Qart.Testing
             _logManager = logManager;
         }
 
+        public IEnumerable<TestCase> DiscoverTests() 
+        {
+            return _testSystem.GetTestCaseIds().Select(_ => _testSystem.GetTestCase(_));
+        }
+
         public IEnumerable<TestCaseResult> RunTests(ITestSession customSession, IDictionary<string, string> options)
         {
-            //_logger.Debug("Looking for test cases.");
-            var testCases = _testSystem.GetTestCaseIds().Select(_ => _testSystem.GetTestCase(_));
             using (var testSession = new TestSession(customSession, _processorResolver, _testCaseLoggerFactory, _logManager, options))
             {
-                foreach (var testCase in testCases)
+                foreach (var testCase in DiscoverTests())
                 {
                     testSession.OnTestCase(testCase);
                 }
