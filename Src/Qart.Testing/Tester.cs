@@ -4,14 +4,14 @@ using System.Linq;
 
 namespace Qart.Testing
 {
-    public class CyberTester
+    public class Tester
     {
         private readonly ITestSystem _testSystem;
         private readonly ITestCaseLoggerFactory _testCaseLoggerFactory;
         private readonly ITestCaseProcessorResolver _processorResolver;
         private readonly ILogManager _logManager;
 
-        public CyberTester(ITestSystem testSystem, ITestCaseProcessorResolver processorResolver, ITestCaseLoggerFactory testCaseLoggerFactory, ILogManager logManager)
+        public Tester(ITestSystem testSystem, ITestCaseProcessorResolver processorResolver, ITestCaseLoggerFactory testCaseLoggerFactory, ILogManager logManager)
         {
             _testSystem = testSystem;
             _testCaseLoggerFactory = testCaseLoggerFactory;

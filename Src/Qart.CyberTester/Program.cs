@@ -7,15 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace Qart.CyberTester
 {
     class CommandlineOptions
     {
-        [Option('d', "dir", Required = false, HelpText = "Path to the directory(s) with testcase(s).")]
+        [Option('d', "dir", Required = false, HelpText = "Path to the directory(s) with test case(s).")]
         public string Dir { get; set; }
 
         [Option('r', "rebaseline", Required = false, HelpText = "Overwrites expected results")]
@@ -30,7 +28,7 @@ namespace Qart.CyberTester
 
     class Program
     {
-        static ILog Logger = LogManager.GetLogger("");
+        static readonly ILog Logger = LogManager.GetLogger("");
 
         static int Main(string[] args)
         {
@@ -57,7 +55,7 @@ namespace Qart.CyberTester
 
             var customSession = container.Kernel.HasComponent(typeof(ITestSession)) ? container.Resolve<ITestSession>() : null;
 
-            var tester = new Testing.CyberTester(testSystem, container.Resolve<ITestCaseProcessorResolver>(), container.Resolve<ITestCaseLoggerFactory>(), container.Resolve<ILogManager>());
+            var tester = new Tester(testSystem, container.Resolve<ITestCaseProcessorResolver>(), container.Resolve<ITestCaseLoggerFactory>(), container.Resolve<ILogManager>());
 
             var parsedOptions = options.Options.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).ToDictionary(_ => _.LeftOf("="), _ => _.RightOf("="));
             var results = tester.RunTests(customSession, parsedOptions);
@@ -65,7 +63,7 @@ namespace Qart.CyberTester
             var failedTestsCount = results.Count(_ => _.Exception != null);
             Logger.InfoFormat("Tests execution finished. Number of failed testcases: {0}", failedTestsCount);
 
-            XElement root = new XElement("TestResults", results.Select(_ => new XElement("Test", new XAttribute("id", _.TestCase.Id), new XAttribute("status", _.Exception == null ? "succeeded" : "failed"), _.Description == null ? null : _.Description.Root)));
+            var root = new XElement("TestResults", results.Select(_ => new XElement("Test", new XAttribute("id", _.TestCase.Id), new XAttribute("status", _.Exception == null ? "succeeded" : "failed"), _.Description == null ? null : _.Description.Root)));
             root.Save("TestSessionResults.xml");
 
             return failedTestsCount;
