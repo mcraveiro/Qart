@@ -122,17 +122,23 @@ Link is broken.
 
 *** Semi-colon as a separator causes problems for some shells         :story:
 
-Shells such as Powershell and Bash use semi-colon as a separator for
-commands; this means we can only run Qart.CyberTester by escaping the
-commands. We should try to use other separators such as =:=. We could
-perhaps support both kinds.
+At present Qart uses the semi-colon as a separator for supplying
+key-value pairs:
+
+: Qart.CybertTest.exe -o a=b;c=d
+
+In powershell and bash, semi-colon is used as a command separator and
+so this results in errors such as c command not found, or the setting
+of c as a variable. At present we can only run Qart.CyberTester by
+escaping the commands. We should consider changing the separator to :,
+which shouldn't cause problems to these two shells. We could perhaps
+support both separators.
 
 *** Add support for token replacement                                 :story:
 
 It would be good to have some machinery to replace given tokens in XML
 and JSON files. Ideally it should also support post-processing such as
 moving dates forward in time, etc.
-
 
 ** Longer term
 
