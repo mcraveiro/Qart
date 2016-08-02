@@ -36,7 +36,23 @@ namespace Qart.CyberTester
             root.Save(ReportFilename);
         }
 
-        public int Execute() 
+        public int ListTests()
+        {
+            var tests = tester_.DiscoverTests();
+            if (!tests.Any()) {
+                System.Console.WriteLine ("Tests: <no tests found>");
+                return 0;
+            }
+
+            System.Console.WriteLine("Tests: ");
+            foreach(var test in tests)
+            {
+                System.Console.WriteLine("    {0}", test.Id);
+            }
+            return 0;
+        }
+
+        public int RunTests()
         {
             var results = tester_.RunTests(customSession_, parsedOptions_);
             var failedTestsCount = results.Count(_ => _.Exception != null);

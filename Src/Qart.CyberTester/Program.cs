@@ -6,7 +6,7 @@
         {
             var options = CommandLineOptions.Parse(args);
             var cyberTester = CyberTesterFactory.Build(options);
-            return cyberTester.Execute();
+            return options.List ? cyberTester.ListTests() : cyberTester.RunTests();
         }
     }
 }

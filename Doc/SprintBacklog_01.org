@@ -12,21 +12,22 @@
 ** Active
 
 #+begin: clocktable :maxlevel 3 :scope subtree :indent nil :emphasize nil :scope file :narrow 75 :formula %
-#+CAPTION: Clock summary at [2016-08-02 Tue 11:39]
+#+CAPTION: Clock summary at [2016-08-02 Tue 12:59]
 | <75>                                                                        |        |      |      |       |
 | Headline                                                                    | Time   |      |      |     % |
 |-----------------------------------------------------------------------------+--------+------+------+-------|
-| *Total time*                                                                | *6:46* |      |      | 100.0 |
+| *Total time*                                                                | *8:02* |      |      | 100.0 |
 |-----------------------------------------------------------------------------+--------+------+------+-------|
-| Stories                                                                     | 6:46   |      |      | 100.0 |
-| Active                                                                      |        | 6:46 |      | 100.0 |
-| STARTED Sprint and product backlog grooming                                 |        |      | 1:11 |  17.5 |
-| COMPLETED Sort out mess with git branches                                   |        |      | 0:25 |   6.2 |
-| COMPLETED Qart.CybyberTester does not honour =-h=                           |        |      | 0:36 |   8.9 |
-| COMPLETED Qart.CybyberTester throws on empty directory                      |        |      | 0:25 |   6.2 |
-| STARTED Add endpoints to Qart.Wheels                                        |        |      | 2:21 |  34.7 |
-| STARTED Add support for test case discovery to Qart                         |        |      | 1:34 |  23.2 |
-| STARTED Update appveyor configuration                                       |        |      | 0:14 |   3.4 |
+| Stories                                                                     | 8:02   |      |      | 100.0 |
+| Active                                                                      |        | 8:02 |      | 100.0 |
+| STARTED Sprint and product backlog grooming                                 |        |      | 1:11 |  14.7 |
+| COMPLETED Sort out mess with git branches                                   |        |      | 0:25 |   5.2 |
+| COMPLETED Qart.CybyberTester does not honour =-h=                           |        |      | 0:36 |   7.5 |
+| COMPLETED Qart.CybyberTester throws on empty directory                      |        |      | 0:25 |   5.2 |
+| COMPLETED Update appveyor configuration                                     |        |      | 0:14 |   2.9 |
+| COMPLETED Add support for test case discovery to Qart                       |        |      | 1:46 |  22.0 |
+| STARTED Add description to test case listing                                |        |      | 1:04 |  13.3 |
+| STARTED Add endpoints to Qart.Wheels                                        |        |      | 2:21 |  29.3 |
 #+TBLFM: $5='(org-clock-time% @3$2 $2..$4);%.1f
 #+end:
 
@@ -105,6 +106,49 @@ The problem is:
 
 : != null
 
+*** COMPLETED Update appveyor configuration                           :story:
+    CLOSED: [2016-08-02 Tue 11:49]
+    CLOCK: [2016-08-01 Mon 10:05]--[2016-08-01 Mon 10:19] =>  0:14
+
+Copy across some of the lessons learned from Dogen. For example, we
+should only build master.
+
+: branches:
+:    only:
+:        - master
+:
+: clone_depth: 5
+
+*** COMPLETED Add support for test case discovery to Qart             :story:
+    CLOSED: [2016-08-02 Tue 11:53]
+    CLOCK: [2016-08-02 Tue 11:40]--[2016-08-02 Tue 11:52] =>  0:12
+    CLOCK: [2016-08-02 Tue 10:18]--[2016-08-02 Tue 10:35] =>  0:17
+    CLOCK: [2016-08-02 Tue 10:01]--[2016-08-02 Tue 10:17] =>  0:16
+    CLOCK: [2016-08-01 Mon 12:43]--[2016-08-01 Mon 12:46] =>  0:03
+    CLOCK: [2016-08-01 Mon 11:44]--[2016-08-01 Mon 12:42] =>  0:58
+
+In order to list test cases we need to split the running from the
+discovery. Tasks:
+
+- Rename CyberTester to just Tester in Qart.Testing. CyberTester is
+  just the command line utility from now on.
+- In Tester, create a method to discover test cases. Implement
+  =RunTests= in terms of this new method.
+- Add command line option to CyberTester to list all tests.
+
+*** STARTED Add description to test case listing                      :story:
+    CLOCK: [2016-08-02 Tue 12:23]--[2016-08-02 Tue 12:58] =>  0:35
+    CLOCK: [2016-08-02 Tue 11:54]--[2016-08-02 Tue 12:23] =>  0:29
+
+The test case list should contain the test case ID, its description
+and any associated tags. At present we do not have any support for
+test case description.
+
+*** Add "automatic" tagging support                                   :story:
+
+- Add support for "automatic" tags. These are obtained from the
+  filesystem: parent folder names up to the initial entry point.
+
 *** STARTED Add endpoints to Qart.Wheels                              :story:
     CLOCK: [2016-08-01 Mon 10:25]--[2016-08-01 Mon 11:36] =>  1:11
     CLOCK: [2016-08-01 Mon 09:01]--[2016-08-01 Mon 09:39] =>  0:38
@@ -143,22 +187,17 @@ Simple example of adding endpoints to OWIN available here:
 
 [[http://www.asp.net/web-api/overview/hosting-aspnet-web-api/use-owin-to-self-host-web-api][Use OWIN to Self-Host ASP.NET Web API 2]]
 
-*** STARTED Add support for test case discovery to Qart               :story:
-    CLOCK: [2016-08-02 Tue 10:18]--[2016-08-02 Tue 10:35] =>  0:17
-    CLOCK: [2016-08-02 Tue 10:01]--[2016-08-02 Tue 10:17] =>  0:16
-    CLOCK: [2016-08-01 Mon 12:43]--[2016-08-01 Mon 12:46] =>  0:03
-    CLOCK: [2016-08-01 Mon 11:44]--[2016-08-01 Mon 12:42] =>  0:58
+*** Qart.CyberTester logs to =stdout=                                 :story:
 
-In order to list test cases we need to split the running from the
-discovery. Tasks:
+When we run Qart.CyberTester on a directory without a test description
+file, we get the following logging:
 
-- Rename CyberTester to just Tester in Qart.Testing. CyberTester is
-  just the command line utility from now on.
-- In Tester, create a method to discover test cases. Implement
-  =RunTests= in terms of this new method.
-- Add support for "automatic" tags. These are obtained from the
-  filesystem: parent folder names up to the initial entry point.
-- Add command line option to CyberTester to list all tests.
+: $ ./Qart.CyberTester.exe
+: 02/08/2016 11:43:45 [DEBUG]  - Rebaseline [False], TestCases [/home/marco/Development/DomainDrivenConsulting/Qart/Src/Qart.CyberTester/bin/Release]
+: 02/08/2016 11:43:45 [INFO]   - Tests execution finished. Number of failed testcases: 0
+
+This is because Qart does not know in which file to place the
+log. Ideally we should have a default log file to use.
 
 *** Add support for "manual" tags                                     :story:
 
@@ -181,18 +220,6 @@ able to run tests by tags. We need:
 Its a bit painful to type Qart.CyberTester.exe to run tests. We should
 supply some simple scripts that alias it to =ct=. This could be in
 CMD, bash, Powershell.
-
-*** STARTED Update appveyor configuration                             :story:
-    CLOCK: [2016-08-01 Mon 10:05]--[2016-08-01 Mon 10:19] =>  0:14
-
-Copy across some of the lessons learned from Dogen. For example, we
-should only build master.
-
-: branches:
-:    only:
-:        - master
-:
-: clone_depth: 5
 
 *** Consider renaming =-d= (directory) to location                    :story:
 
