@@ -12,19 +12,21 @@
 ** Active
 
 #+begin: clocktable :maxlevel 3 :scope subtree :indent nil :emphasize nil :scope file :narrow 75 :formula %
-#+CAPTION: Clock summary at [2016-08-01 Mon 12:42]
+#+CAPTION: Clock summary at [2016-08-02 Tue 11:39]
 | <75>                                                                        |        |      |      |       |
 | Headline                                                                    | Time   |      |      |     % |
 |-----------------------------------------------------------------------------+--------+------+------+-------|
-| *Total time*                                                                | *5:09* |      |      | 100.0 |
+| *Total time*                                                                | *6:46* |      |      | 100.0 |
 |-----------------------------------------------------------------------------+--------+------+------+-------|
-| Stories                                                                     | 5:09   |      |      | 100.0 |
-| Active                                                                      |        | 5:09 |      | 100.0 |
-| STARTED Sprint and product backlog grooming                                 |        |      | 1:11 |  23.0 |
-| COMPLETED Sort out mess with git branches                                   |        |      | 0:25 |   8.1 |
-| STARTED Add endpoints to Qart.Wheels                                        |        |      | 2:21 |  45.6 |
-| STARTED Add support for test case discovery to Qart                         |        |      | 0:58 |  18.8 |
-| STARTED Update appveyor configuration                                       |        |      | 0:14 |   4.5 |
+| Stories                                                                     | 6:46   |      |      | 100.0 |
+| Active                                                                      |        | 6:46 |      | 100.0 |
+| STARTED Sprint and product backlog grooming                                 |        |      | 1:11 |  17.5 |
+| COMPLETED Sort out mess with git branches                                   |        |      | 0:25 |   6.2 |
+| COMPLETED Qart.CybyberTester does not honour =-h=                           |        |      | 0:36 |   8.9 |
+| COMPLETED Qart.CybyberTester throws on empty directory                      |        |      | 0:25 |   6.2 |
+| STARTED Add endpoints to Qart.Wheels                                        |        |      | 2:21 |  34.7 |
+| STARTED Add support for test case discovery to Qart                         |        |      | 1:34 |  23.2 |
+| STARTED Update appveyor configuration                                       |        |      | 0:14 |   3.4 |
 #+TBLFM: $5='(org-clock-time% @3$2 $2..$4);%.1f
 #+end:
 
@@ -51,6 +53,57 @@ now as follows:
 - remote integration branch is rebased as we update master from
   upstream.
 - PRs are opened from integration.
+
+*** COMPLETED Qart.CybyberTester does not honour =-h=                 :story:
+    CLOSED: [2016-08-02 Tue 11:12]
+    CLOCK: [2016-08-02 Tue 10:36]--[2016-08-02 Tue 11:12] =>  0:36
+
+At present if you ask Qart for help, nothing happens:
+
+: $ ./Qart.CyberTester.exe --help
+: 02/08/2016 10:31:33 [DEBUG]  - Rebaseline [False], TestCases [/home/marco/Development/DomainDrivenConsulting/Qart/Src/Qart.CyberTester/bin/Release]
+: 02/08/2016 10:31:33 [INFO]   - Tests execution finished. Number of failed testcases: 0
+
+In reality Qart is ignoring the request for help and trying to look
+for tests to execute. Display help instead and do not log.
+
+*** COMPLETED Qart.CybyberTester throws on empty directory            :story:
+    CLOSED: [2016-08-02 Tue 11:39]
+    CLOCK: [2016-08-02 Tue 11:35]--[2016-08-02 Tue 11:39] =>  0:04
+    CLOCK: [2016-08-02 Tue 11:13]--[2016-08-02 Tue 11:34] =>  0:21
+
+At present when we run Qart.CybyberTester without any parameters on a
+directory without any tests we get an exception:
+
+: 02/08/2016 11:09:16 [DEBUG]  - Rebaseline [False], TestCases [/home/marco/Development/DomainDrivenConsulting/Qart/Src/Qart.CyberTester/bin/Release]
+: 02/08/2016 11:09:17 [DEBUG]  - Starting processing test case [.]
+: 02/08/2016 11:09:17 [ERROR]  - an error occured
+: =======================================================(inner most exception)===
+:  (1) System.NullReferenceException
+: ================================================================================
+: Method        :  Execute
+: Type          :  Qart.Testing.Framework.TestCaseProcessorInfoExtractor
+: Assembly      :  Qart.Testing, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+: Assembly Path :  /home/marco/Development/DomainDrivenConsulting/Qart/Src/Qart.CyberTester/bin/Release/Qart.Testing.dll
+: Source        :  Qart.Testing
+: Thread        :  1 ''
+: Helplink      :
+
+This happens because of this line:
+
+: var content = testCase.GetContent(".test").TrimStart();
+
+We need to handle the case where there are no =.test= files. It
+appears this is a regression due to this expression:
+
+:        public IEnumerable<string> GetTestCaseIds()
+:        {
+:            return DataStorage.GetAllGroups().Concat(new[] { "." }).Where(_ => _isTestCasePredicate(new ScopedDataStore(DataStorage, _)) != null);
+:        }
+
+The problem is:
+
+: != null
 
 *** STARTED Add endpoints to Qart.Wheels                              :story:
     CLOCK: [2016-08-01 Mon 10:25]--[2016-08-01 Mon 11:36] =>  1:11
@@ -91,6 +144,9 @@ Simple example of adding endpoints to OWIN available here:
 [[http://www.asp.net/web-api/overview/hosting-aspnet-web-api/use-owin-to-self-host-web-api][Use OWIN to Self-Host ASP.NET Web API 2]]
 
 *** STARTED Add support for test case discovery to Qart               :story:
+    CLOCK: [2016-08-02 Tue 10:18]--[2016-08-02 Tue 10:35] =>  0:17
+    CLOCK: [2016-08-02 Tue 10:01]--[2016-08-02 Tue 10:17] =>  0:16
+    CLOCK: [2016-08-01 Mon 12:43]--[2016-08-01 Mon 12:46] =>  0:03
     CLOCK: [2016-08-01 Mon 11:44]--[2016-08-01 Mon 12:42] =>  0:58
 
 In order to list test cases we need to split the running from the
